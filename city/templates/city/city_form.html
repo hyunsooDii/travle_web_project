@@ -1,0 +1,99 @@
+{% extends "main_template.html" %}
+{% load widget_tweaks %}
+
+{% block title %}city_form.html{% endblock %}
+
+{% block content %}
+<h1>City Create/Update - {{user}}</h1>
+<p class="font-italic">This is a creation or update form for your post.</p>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+    <div class="font-weight-bold">
+        Wrong! Please correct the error(s) below.
+    </div>
+    {{ form.errors }}
+</div>
+{% endif %}
+
+<form action="." method="post" enctype="multipart/form-data" >{% csrf_token %}
+    {# enctype - 기입해야 파일첨부 형식으로 from-data가 전달됨 #}
+
+    <div class="form-group row">
+        {{ form.title|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">
+            {{ form.title|add_class:"form-control"|attr:"autofocus" }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2 ml-3 font-weight-bold">나라선택 :</label>
+        <div class="col-sm-5">
+            {{ form.country_index|add_class:"form-control"|attr:"autofocus" }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="files" class="col-form-label col-sm-2 ml-3 font-weight-bold">삭제할 파일 :</label>
+        <div class="col-sm-8">
+            {% for file in country.files.all %}
+            <input type="checkbox" name="delete_files" value="{{file.id}}"> {# name과 value가 핵심 #}
+            {{ file.filename }} ({{ file.size|filesizeformat }})
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label for="files" class="col-form-label col-sm-2 ml-3 font-weight-bold">첨부파일 :</label>
+        <div class="col-sm-8">
+            <input type="file" id="files" name="files" multiple> {# multiple을 써야 다중 첨부가능 #}
+        </div>
+    </div>
+
+    <div class="form-group row">
+<<<<<<< HEAD
+        <label class="col-form-label col-sm-2 ml-3 font-weight-bold">Card_content :</label>
+        <div class="col-sm-8">
+            {{ form.card_content|add_class:"form-control" }}
+        </div>
+    </div>
+
+        <div class="form-group row">
+        <label class="col-form-label col-sm-2 ml-3 font-weight-bold">Main_content :</label>
+        <div class="col-sm-8">
+            {{ form.main_content|add_class:"form-control" }}
+=======
+        {{ form.content|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-8">
+            {{ form.content|add_class:"form-control" }}
+>>>>>>> 12cabc5e6dcacdea25c7adb8827a885a0f7d968a
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form.tags|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">
+            {{ form.tags|add_class:"form-control" }}
+        </div>
+        <small class="form-text text-muted">{{ form.tags.help_text }}</small>
+    </div>
+
+    <div class="form-group">
+        <div class="offset-sm-2 col-sm-5">
+            <input type="submit" value="Submit" class="btn btn-info"/>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
+
+{% block extra-script %}
+<script src="https://cdn.tiny.cloud/1/hchgvts2huiv0hx8u6fjqeiaqjor6my64660bf02n4rvac4h/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+<script>
+     tinymce.init({ selector:'textarea', menubar: false, statusbar: false, toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat' });
+
+</script> {% endblock %}

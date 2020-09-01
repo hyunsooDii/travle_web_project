@@ -1,0 +1,62 @@
+{% extends "main_template.html" %}
+
+{%load static%}
+
+{% block title %}detail_city_all.html{% endblock %}
+
+{% block content %}
+
+{% block extra-style %}
+
+<style>
+
+{%include "card_style.css"%}
+
+
+</style>
+
+{%endblock%}
+
+<h1>이도시어때?</h1>
+<br>
+<div class="carousel" data-flickity='{ "groupCells": 4 }'>
+    {% for detail_city in object_list %}
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ detail_city.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{detail_city.title}}</h5>
+                        <p class="card-text">
+                            {{detail_city.content|safe}}</p>
+                    </div>
+                    <a href="" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+
+{% if detail_city.owner == user %} {# 글쓴이와 로그인한 유저가 일치했을 때 #}
+<div class="text-left">
+    <a href="{% url 'detail_city:update' post.id %}" class="mr-3">
+        <i class="fas fa-edit"></i>수정</a>
+    <a href="{% url 'detail_city:city' post.id %}" class="text-danger mr-3">
+        <i class="far fa-trash"></i>삭제</a>
+</div>
+{% endif %}
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'detail_city:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    <a href="{%url 'detail_city:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}

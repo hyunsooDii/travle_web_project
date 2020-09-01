@@ -1,0 +1,15 @@
+{% extends "main_template.html" %}
+
+{% block title %}board_archive_day.html{% endblock %}
+
+{% block content %}
+
+<h1>Board Archives for {{ day|date:"N d, Y" }}</h1>
+
+<div>
+ <ul>
+    {% include "board_get_url.html"%}
+ </ul>
+</div>
+
+{% endblock %}

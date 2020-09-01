@@ -1,0 +1,20 @@
+{% extends "main_template.html" %}
+
+{% block title %}board_archive_month.html{% endblock %}
+
+{% block content %}
+<h1>Board Archives for {{ month|date:"N, Y" }}</h1>
+
+<ul>
+    {%for date in date_list%}
+    <li style="display: inline;">
+        <a href="{% url 'board:board_day_archive' date|date:'Y' date|date:'m' date|date:'d' %}">{{ date|date:"m" }}월{{date|date:"d" }}일</a></li>
+    {%endfor%}
+</ul>
+<br>
+
+<div>
+    {% include "board_get_url.html"%}
+</div>
+
+{% endblock %}

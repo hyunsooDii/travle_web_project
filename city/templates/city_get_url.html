@@ -1,0 +1,9 @@
+<ul>
+    {% for city in object_list %}
+    <li class="h5">
+        {{ city.modify_dt|date:"Y-m-d" }}&emsp;
+        <a href="{{ city.get_absolute_url }}">
+            <strong>{{ city.title }}</strong></a>
+    </li>
+    {% endfor %}
+</ul>

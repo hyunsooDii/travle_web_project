@@ -1,0 +1,54 @@
+{% extends "main_template.html" %}
+
+{%load static%}
+
+{% block title %}festival_all.html{% endblock %}
+
+{% block content %}
+
+{% block extra-style %}
+
+<style>
+
+{%include "card_style.css"%}
+
+
+</style>
+
+{%endblock%}
+
+<h1>이축제어때?</h1>
+<br>
+<div class="carousel" data-flickity='{ "groupCells": 4 }'>
+    {% for festival in object_list %}
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ festival.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{festival.title}}</h5>
+                        <p class="card-text">
+                            {{festival.content|safe}}</p>
+                    </div>
+                    <a href="#" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'festival:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    <a href="{%url 'festival:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}

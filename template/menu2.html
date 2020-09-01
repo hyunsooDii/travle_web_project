@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="margin: 0px 48px 60px 48px">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">HyunSoo Moon</a>
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'bookmark:index' %}"><i class="fas fa-list-ul"></i>PotalSite</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'blog:index' %}"><i class="fas fa-images"></i>News</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'blog:post_archive' %}"><i class="fas fa-images"></i>Archive</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'blog:search' %}"><i class="fas fa-images"></i>Search</a>
+            </li>
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i
+                        class="fas fa-images"></i> etc</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="travel.html"><i class="fas fa-plane"></i>여행</a>
+                    <a class="dropdown-item" href="food.html"><i class="fas fa-utensils"></i>음식</a>
+                    <a class="dropdown-item" href="animals.html"><i class="fas fa-dog"></i>동물</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+
+        </ul>
+
+        <form class="form-inline my-2" action="" method="post"> {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search"
+                   placeholder="global search" name="search_word">
+        </form>
+
+        <ul class="navbar-nav ml-5 mr-5"style="solid:black">
+            <li class="nav-item dropdown mx-1 btn">
+                {% if user.is_active %}
+                <a class="nav-link dropdown-toggle text-white" href="#"
+                   data-toggle="dropdown">
+                    <i class="fas fa-user"></i>
+                    {{user.username }} </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'password_change' %}">
+                        Change Password</a>
+                </div>
+                {% else %}
+                <a class="nav-link dropdown-toggle text-white" href="#"
+                   data-toggle="dropdown">
+                    <i class="fas fa-user"></i>Anonymous</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                    <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+                </div>
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>
+</nav>

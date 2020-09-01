@@ -1,0 +1,52 @@
+{% extends "main_template.html" %}
+
+{% block title %}food_all.html{% endblock %}
+
+{% block content %}
+
+<h2>{{object.title}}</h2>
+
+<p>
+    {%if food.get_previous %}
+        <a href="{{food.get_previous.get_absolute_url}}"
+            title="이전 글">prev</a>
+    {%endif%}
+
+    {%if food.get_next %}
+        <a href="{{food.get_next.get_absolute_url}}"
+            title="다음 글">next</a>
+    {%endif%}
+</p>
+
+<div class="text-right">
+    <p>글쓴이: {{food.owner}} 수정일: {{food.modify_dt | date:"Y-m-d"}} 조회수: {{food.update_read_cnt}}</p>
+</div>
+<br>
+
+<div class="test-right my-3">
+    {% for file in food.files.all %}
+        <a href="{% url 'food:download' file.id %}" class="ml-4">
+            <i class="fas fa-download"></i>
+            {{ file.filename }} ({{ file.size|filesizeformat }}) </a>
+    {% endfor %}
+</div>
+
+{% if food.owner == user %} {# 글쓴이와 로그인한 유저가 일치했을 때 #}
+<div class="text-right">
+    <a href="{% url 'food:update' food.id %}" class="mr-3">
+        <i class="fas fa-edit"></i>수정</a>
+    <a href="{% url 'food:delete' food.id %}" class="text-danger mr-3">
+        <i class="far fa-trash"></i>삭제</a>
+</div>
+{% endif %}
+
+<div>
+    {# {{food.content | linebreaks}} #} {#linebreaks - 개행문자를 br태그 혹은 p태그로 대체#}
+    {{food.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
+</div>
+
+<a href="{% url 'food:index'%}">목록으로</a>
+
+<br>
+
+{%endblock%}

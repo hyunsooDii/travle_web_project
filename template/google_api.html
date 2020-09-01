@@ -1,0 +1,87 @@
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script>
+
+var list_lat = document.getElementById("detail_city_lat").innerText.split(',');
+var list_lng = document.getElementById("detail_city_lng").innerText.split(',');
+var list_title = document.getElementById("detail_city_title").innerText.split(',');
+
+var locations = [
+       [list_title[0], list_lat[0], list_lng[0], list_title[0]],
+       [list_title[1], list_lat[1], list_lng[1], list_title[1]],
+       [list_title[2], list_lat[2], list_lng[2], list_title[2]],
+       [list_title[3], list_lat[3], list_lng[3], list_title[3]],
+       [list_title[4], list_lat[4], list_lng[4], list_title[4]],
+];
+
+<!--var locations = new Array();-->
+<!--&lt;!&ndash;var locations = [];&ndash;&gt;-->
+<!--  for(var idx=0; idx<list_lat.length; idx++){-->
+<!--    var data_lat = list_lat[idx];-->
+<!--    var data_lng = list_lng[idx];-->
+<!--&lt;!&ndash;    locations.push(('1', data_lat, data_lng, '1'));&ndash;&gt;-->
+<!--    locations += ['1', data_lat, data_lng, '1'];-->
+<!--    document.writeln(locations);-->
+<!--  }-->
+
+<!--var locations = new Array();-->
+<!--locations = document.getElementById("detail_city_locations").innerText.split('],');-->
+<!--document.write(locations.length);-->
+<!--document.write(locations[0][1]);-->
+
+<!--var locations = [-->
+<!--       ['1', 43.716589, -79.340686, 'address 1'],-->
+<!--       ['2', 43.759359, -79.410019, 'address 2'],-->
+<!--       ['3', 43.662977, -79.395656, 'address 3'],-->
+<!--       ['4', 43.678205, -79.624564, 'address 4'],-->
+<!--       ['5', 43.642705, -79.387077, 'address 5'],-->
+<!--];-->
+
+function initMap() {
+       var latlng = new google.maps.LatLng(locations[0][1], locations[0][2]);
+       mapOptions = {
+           zoom: 10,
+           center: latlng
+       }
+       var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+       var infowindow = new google.maps.InfoWindow();
+
+       for (i = 0; i < locations.length; i++) {
+           var icon = '';
+           if ( locations[i][0].length != '' && locations[i][1].length != '' ) {
+
+               var marker = new google.maps.Marker({
+                   position:       new google.maps.LatLng(locations[i][1], locations[i][2]),
+                   map:            map,
+                   title:          locations[i][3],
+               });
+
+               infowindow.open(map, marker);
+
+                // Event that closes the Info Window with a click on the map
+               google.maps.event.addListener(map, 'click', (function(infowindow) {
+
+               return function() {
+                infowindow.close();
+               }
+
+               })(infowindow));
+
+               google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                   return function() {
+                       var contentString = locations[i][0];
+                       infowindow.setContent(contentString);
+                       infowindow.open(map, marker);
+                   }
+               })(marker, i));
+           }
+       }
+}
+google.maps.event.addDomListener(window, 'load', initMap);
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC-As064QlC5GmITzi15E8D0lcmb-0qIo&callback=initMap">
+</script>

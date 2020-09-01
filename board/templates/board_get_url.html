@@ -1,0 +1,10 @@
+<ul>
+    {% for board in boards %}
+    <li class="h5">
+        {{ board.modify_dt|date:"Y-m-d" }}&emsp;
+        <a href="{{ board.get_absolute_url }}">
+            <strong>{{ board.title }}</strong></a>
+    </li>
+    <div class="text-right">조회수 : {{board.read_cnt}}</div>
+    {% endfor %}
+</ul>

@@ -1,0 +1,33 @@
+<h1>어디갈까?</h1>
+<br>
+<div class="carousel" data-flickity='{ "groupCells": 4 }'>
+
+    {% for country in countries %}
+
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ country.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{country.title}}</h5>
+                        <p class="card-text">
+                            {{country.content|safe}}</p>
+                    </div>
+                    <a href="{{ country.get_absolute_url }}" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br><br>
+
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'country:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    <a href="{%url 'country:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>
+    {% endif %}
+</div>

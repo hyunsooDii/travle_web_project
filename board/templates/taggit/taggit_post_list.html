@@ -1,0 +1,14 @@
+{% extends "main_template.html" %}
+
+{% block title %}taggit_post_list.html{% endblock %}
+
+{% block content %}
+
+    <h1>Posts for tag - {{ tagname }}</h1>
+    <br>
+    {% for board in boards %}
+        <h2><a href="{{ board.get_absolute_url }}">{{ board.title }}</a></h2>
+        {{ board.modify_dt|date:"N d, Y" }}
+        <P>{{ board.content }}</P>
+    {% endfor %}
+{% endblock %}

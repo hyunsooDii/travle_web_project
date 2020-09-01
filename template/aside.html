@@ -1,0 +1,158 @@
+{%load static %}
+<style>
+    .user_image{
+    width:60px;
+    height:60px;
+    border-radius:60px;
+    margin:15px 10px 10px 5px
+    }
+    .row{
+        margin: 0;
+        padding: 0;
+    }
+    #username{
+        padding-left: 10px;
+        padding-right: 0;
+        margin-top: 40px;
+        margin-left: 0;
+    }
+</style>
+
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" id="mySidebar">
+<div style="width: 100; height: 30px; margin: 0;"><button id="menu-btn" class="fa fa-times" style="float: right; margin: 0;" onclick="w3_close()"></button></div>
+    <div class="row">
+        {% if user.is_active %}
+        <div class="col-sm-6">
+            <img class="user_image" src="{% static 'images/user1.png' %}" class="profile_image" alt="">
+        </div>
+        {% endif %}
+
+        <div class="col-sm-6" id="username">
+            {% if user.is_active %}
+            <h4 style="text-align:center; float: left;">{{user.first_name }}님 </h4>
+            {% else %}
+            <div style="text-align:center">로그인하세요.</div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    {% if user.is_active %}
+    <a href="{% url 'logout' %}" class="list-group-item" style="text-align:center; padding: 0;"><span>로그아웃</span></a>
+    {% else %}
+    <a href="{% url 'login' %}" class="list-group-item" style="text-align:center"><span>로그인</span></a>
+    {% endif %}
+
+    <div id="main-menu" class="list-group">
+        <a href="#north-america" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">북아메리카
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="north-america">
+            <a href="#america" class="list-group-item" data-toggle="collapse"
+               data-parent="#north-america">미국<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="america">
+                <a href="{% url 'country:index' %}" class="list-group-item" data-parent="#america">뉴욕(NewYork)</a>
+                <a href="#" class="list-group-item" data-parent="#america">로스엔젤레스(LA)</a>
+                <a href="#" class="list-group-item" data-parent="#america">라스베가스(Lasvegas)</a>
+            </div>
+
+            <a href="#canada" class="list-group-item" data-toggle="collapse"
+               data-parent="#north-america">캐나다<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="canada">
+                <a href="#" class="list-group-item" data-parent="#canada">토론토(Toronto)</a>
+                <a href="#" class="list-group-item" data-parent="#canada">퀘백(Quebec)</a>
+            </div>
+        </div>
+
+        <a href="#south-america" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">남아메리카
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="south-america">
+            <a href="#brazil" class="list-group-item" data-toggle="collapse"
+               data-parent="#south-america">브라질<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="brazil">
+                <a href="#" class="list-group-item" data-parent="#brazil">상파울루</a>
+                <a href="#" class="list-group-item" data-parent="#brazil">리오 데 자네이루</a>
+            </div>
+
+            <a href="#mexico" class="list-group-item" data-toggle="collapse"
+               data-parent="#south-america">멕시코<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="mexico">
+                <a href="#" class="list-group-item" data-parent="#mexico">칸쿤</a>
+                <a href="#" class="list-group-item" data-parent="#mexico">멕시코시티</a>
+            </div>
+        </div>
+
+        <a href="#north-asia" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">동북아시아
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="north-asia">
+            <a href="#korea" class="list-group-item" data-toggle="collapse"
+               data-parent="#north-asia">한국<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="korea">
+                <a href="#" class="list-group-item" data-parent="#korea">서울</a>
+                <a href="#" class="list-group-item" data-parent="#korea">부산</a>
+            </div>
+
+            <a href="#china" class="list-group-item" data-toggle="collapse"
+               data-parent="#north-asia">중국<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="china">
+                <a href="#" class="list-group-item" data-parent="#china">베이징</a>
+                <a href="#" class="list-group-item" data-parent="#china">상하이</a>
+            </div>
+        </div>
+
+        <a href="#south-asia" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">동남아시아
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="south-asia">
+            <a href="#vietnam" class="list-group-item" data-toggle="collapse"
+               data-parent="#south-asia">베트남<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="vietnam">
+                <a href="#" class="list-group-item" data-parent="#vietnam">다낭</a>
+                <a href="#" class="list-group-item" data-parent="#vietnam">하노이</a>
+            </div>
+
+            <a href="#thai" class="list-group-item" data-toggle="collapse"
+               data-parent="#south-asia">태국<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="thai">
+                <a href="#" class="list-group-item" data-parent="#thai">방콕</a>
+                <a href="#" class="list-group-item" data-parent="#thai">치앙마이</a>
+            </div>
+        </div>
+
+        <a href="#east-europe" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">동유럽
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="east-europe">
+            <a href="#germany" class="list-group-item" data-toggle="collapse"
+               data-parent="#east-europe">독일<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="germany">
+                <a href="#" class="list-group-item" data-parent="#germany">베를린</a>
+                <a href="#" class="list-group-item" data-parent="#germany">뮌헨</a>
+            </div>
+
+            <a href="#austria" class="list-group-item" data-toggle="collapse"
+               data-parent="#east-europe">오스트리아<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="austria">
+                <a href="#" class="list-group-item" data-parent="#austria">비엔나</a>
+                <a href="#" class="list-group-item" data-parent="#austria">할슈타트</a>
+            </div>
+        </div>
+
+        <a href="#west-europe" class="list-group-item active" data-toggle="collapse" data-parent="#main-menu">서유럽
+            <span class="caret"></span></a>
+        <div class="collapse list-group-level1" id="west-europe">
+            <a href="#france" class="list-group-item" data-toggle="collapse"
+               data-parent="#west-europe">프랑스<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="france">
+                <a href="#" class="list-group-item" data-parent="#france">파리</a>
+                <a href="#" class="list-group-item" data-parent="#france">리옹</a>
+            </div>
+
+            <a href="#italy" class="list-group-item" data-toggle="collapse"
+               data-parent="#west-europe">이탈리아<span class="caret"></span></a>
+            <div class="collapse list-group-level2" id="italy">
+                <a href="#" class="list-group-item" data-parent="#italy">로마</a>
+                <a href="#" class="list-group-item" data-parent="#italy">베네치아</a>
+            </div>
+        </div>
+        <a href="{% url 'board:index' %}" class="list-group-item" style="background-color: #E97252; color : #fff; border : None;">여행리뷰</a>
+
+    </div>
+</div>

@@ -1,0 +1,172 @@
+{% extends "main_template.html" %}
+{%load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html>
+{% block title %}board_form.html{% endblock %}
+
+<head>
+    {% block content %}
+    <meta charset = "UTF-8">
+    <meta name  = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<style>
+        body{
+            margin: 0;
+            padding:0;
+
+        }
+        .rating{
+            position: absolute;
+            top: 50%;
+            left: 45%;
+            transform: translate(-50%,-50%) rotateY(180deg);
+            display: flex;
+        }
+        .rating input{
+
+            display: none;
+        }
+        .rating label{
+
+            display: block;
+            cursor: pointer;
+            width: 45px;
+            background: #ffff;
+        }
+        .rating label:before{
+                content: '\f005';
+                font-family: fontAwesome;
+                position: relative;
+                display: block;
+                font-size: 30px;
+                color: #ccc;
+
+        }
+        .rating label:after{
+                content: '\f005';
+                font-family: fontAwesome;
+                position: absolute;
+                display: block;
+                font-size: 30px;
+                color: yellow;
+                top: 0;
+                opacity: 0;
+                transition: .5%;
+                border-color: #000000;
+                text-shadow: 0 2px 5px rgba(0,0,0,.5);
+        }
+        .rating label:hover:after,
+        .rating label:hover~ label:after,
+        .rating input:checked ~ label:after
+        {
+                 opacity: 1;
+
+
+        }
+
+    </style>
+</head>
+<body>
+<br>
+<h1 style="font-size: 40px; font-color: orange font-weight: bold;;">여행 후기 작성하기 - {{user.first_name}}</h1>
+<br>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+    <div class="font-weight-bold">
+        Wrong! Please correct the error(s) below.
+    </div>
+    {{ form.errors }}
+</div>
+{% endif %}
+
+<form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+<div class = "container">
+       <div class="form-group row">
+        <label class="col-form-label col-sm-2 ml-3 font-weight-bold">COUNTRY :</label>
+        <div class="col-sm-5">
+            {{ form.country_index|add_class:"form-control"|attr:"autofocus" }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form.city|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">
+            {{ form.city|add_class:"form-control" }}
+        </div>
+    </div>
+
+        <div class="form-group row">
+<!--             {{ form.star|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}-->
+            <label class="col-form-label col-sm-2 ml-3 font-weight-bold">RATING :</label>
+       <div class="col-sm-5">
+        <div class = "rating">
+        <input type = "radio" name = "star" id ="star1" value="5"><label for="star1"></label>
+        <input type = "radio" name = "star" id ="star2" value="4"><label for="star2"></label>
+        <input type = "radio" name = "star" id ="star3" value="3"><label for="star3"></label>
+        <input type = "radio" name = "star" id ="star4" value="2"><label for="star4"></label>
+        <input type = "radio" name = "star" id ="star5" value="1"><label for="star5"></label>
+
+        </div>
+
+
+        </div>
+        </div>
+
+    <div class="form-group row">
+        {{ form.title|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">
+            {{ form.title|add_class:"form-control"|attr:"autofocus" }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="files" class="col-form-label col-sm-2 ml-3 font-weight-bold">삭제할 파일 :</label>
+        <div class="col-sm-8">
+            {% for file in board.files.all %}
+                <input type="checkbox" name="delete_files" value="{{file.id}}"> {# name과 value가 핵심 #}
+                    {{ file.filename }} ({{ file.size|filesizeformat }})
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+
+
+        <div class="form-group row">
+        <label for="files" class="col-form-label col-sm-2 ml-3 font-weight-bold">이미지 첨부파일 :</label>
+        <div class="col-sm-8">
+            <input type="file" id="files" name="files" multiple> {# multiple을 써야 다중 첨부가능 #}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form.content|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-8">
+            {{ form.content|add_class:"form-control" }}
+        </div>
+    </div>
+ <div class="form-group row">
+        {{ form.tags| add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">
+            {{ form.tags|add_class:"form-control" }}
+        </div>
+        <small class="form-text text-muted">{{ form.tags.help_text }}</small>
+    </div>
+    <div class="form-group">
+        <div class="offset-sm-2 col-sm-5">
+            <input type="submit" value="등록하기" class="btn btn-info"/>
+             <a href="{%url 'board:index'%}" class="btn btn-info">목록으로</a>
+        </div>
+    </div>
+</div>
+</form>
+</body>
+{% endblock %}
+
+{% block extra-script %}
+
+<script src="https://cdn.tiny.cloud/1/hchgvts2huiv0hx8u6fjqeiaqjor6my64660bf02n4rvac4h/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+     tinymce.init({ selector:'textarea', menubar: false, statusbar: false, toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat' });
+</script> {% endblock %}
+</html>

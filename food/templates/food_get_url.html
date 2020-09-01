@@ -1,0 +1,9 @@
+<ul>
+    {% for food in object_list %}
+    <li class="h5">
+        {{ food.modify_dt|date:"Y-m-d" }}&emsp;
+        <a href="{{ food.get_absolute_url }}">
+            <strong>{{ food.title }}</strong></a>
+    </li>
+    {% endfor %}
+</ul>

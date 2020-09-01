@@ -1,0 +1,25 @@
+{% extends "main_template.html" %}
+
+{% block title %}board_search.html{% endblock %}
+
+{% block content %}
+
+    <h1>Board Search</h1>
+    <br>
+
+    <form action="." method="post">{% csrf_token %} {# .은 현재디렉터리#}
+        {{ form.as_table }} {# 테이블이 자동으로 채워짐 #}
+        <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+    </form>
+
+    {% if boards %}
+{% for board in boards %}
+<h2><a href='{{ board.get_absolute_url }}'>{{ boards.title }}</a></h2>
+ {{ boards.modify_dt|date:"N d, Y" }}
+ <p>{{ boards.content }}</p>
+ {% endfor %}
+    {% elif search_term %}
+    <b><i>Search Word({{ search_term }}) Not Found </i></b>
+    {% endif %}
+
+{% endblock %}

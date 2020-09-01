@@ -1,0 +1,138 @@
+{% extends "main_template.html" %}
+
+{%load static%}
+
+{% block title %}city_detail_all.html{% endblock %}
+
+{% block content %}
+
+{% block extra-style %}
+
+<style>
+#map {
+    float: left;
+    height: 400px;
+    width: 400px;
+}
+{%include "card_style.css"%}
+
+
+
+
+</style>
+
+{%endblock%}
+
+<h1>{{city_id.title}}의 주요 관광지</h1>
+
+<br>
+<div class="carousel" id="card_body" data-flickity='{ "groupCells": 4 }'>
+    {% for detail_city in detail_city_list %}
+    {% if detail_city.city_index_id == city_id.id%}
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ detail_city.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{detail_city.title}}</h5>
+                        <p class="card-text">
+                            {{detail_city.content|safe}}</p>
+                    </div>
+                    <a href="#" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    {% endfor %}
+</div>
+
+<br><br><br><br><br>
+
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'detail_city:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    <a href="{%url 'detail_city:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>
+    {% endif %}
+</div>
+
+<h3>{{city_id.title}}</h3>
+
+<div id="detail_city_lat" style="display: none">
+    {% for detail_city in detail_city_list %}
+    {% if detail_city.city_index_id == city_id.id%}
+    {{ detail_city.latitude }},
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div id="detail_city_lng" style="display: none">
+    {% for detail_city in detail_city_list %}
+    {% if detail_city.city_index_id == city_id.id%}
+    {{ detail_city.longitude }},
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div id="detail_city_title" style="display: none">
+    {% for detail_city in detail_city_list %}
+    {% if detail_city.city_index_id == city_id.id%}
+    {{ detail_city.title }},
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div id="detail_city_locations" style="display: none">
+    {% for detail_city in detail_city_list %}
+    {% if detail_city.city_index_id == city_id.id%}
+    ['{{detail_city.title}}',{{detail_city.latitude}},{{detail_city.longitude}},'{{detail_city.title}}'],
+    {% endif %}
+    {% endfor %}
+</div>
+<div class=" row">
+    <div class="col-sm-6">
+        {{city_id.main_content|safe}}
+    </div>
+    <div class="col-sm-6" style="float:right;">
+        {%include 'google_api.html'%}
+    </div>
+</div>
+<h1>{{city_id.title}}행사</h1>
+<br>
+<div class="carousel" id="#" data-flickity='{ "groupCells": 4 }'>
+    {% for festival in festival_list %}
+    {% if festival.city_index_id == city_id.id%}
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ festival.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{festival.title}}</h5>
+                        <p class="card-text">
+                            {{festival.content|safe}}</p>
+                    </div>
+                    <a href="#" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<br>
+
+
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'festival:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    <a href="{%url 'festival:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}

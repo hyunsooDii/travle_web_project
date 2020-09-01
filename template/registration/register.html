@@ -1,0 +1,122 @@
+{%load static%}
+<!DOCTYPE html>
+<!-- ID, 닉네임, 비밀번호, 이메일 -->
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title></title>
+    <style>
+        span {
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="{%static "css/register_style.css"%}">
+    <script src="jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<body>
+
+<section class="register-form">
+    <p><a href="{% url 'home' %}" style="color:black"><img src = "{% static 'images/fox.jpg' %}" width = "55px" height="55px" align = "middle">
+        <span>여</span>행 <span>우</span>데가지<span>?</span></a></p>
+    <!-- <p><img src="/static/css/fox.jpg" width="55px" height="55px" align="middle"><span>여</span>행
+        <span>우</span>데가지<span>?</span></p> -->
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="row mt-5">
+            <div class="col-12">
+                {{error}}
+            </div>
+        </div>
+        <div class="int-area">
+            <input type="text" name="username" id="username" autocomplete="off" required>
+            <label for="username">USERNAME</label>
+        </div>
+        <div class="int-area">
+            <input type="text" name="nickname" id="nickname" autocomplete="off" required>
+            <label for="nickname">NICKNAME</label>
+        </div>
+        <div class="int-area">
+            <input type="password" name="password" id="password" autocomplete="off" required>
+            <label for="password">PASSWORD</label>
+            <div class="int-area">
+                <input type="password" name="re_password" id="re_password" autocomplete="off" required>
+                <label for="re_password">PASSWORD CONFIRM</label>
+                <div class="int-area">
+                    <input type="text" name="email" id="email" autocomplete="off" required>
+                    <label for="email">E-MAIL</label>
+                </div>
+            </div>
+            <div class="btn-area">
+                <button id="btn" type="submit" value="Register">SIGN UP</button>
+            </div>
+        </div>
+    </form>
+
+</section>
+</div>
+<script>
+    let username = $('#username');
+    let nickname = $('#nickname');
+    let password = $('#password');
+    let re_password = $('#re_password');
+    let email = $('#email');
+    let btn = $('#btn');
+
+    $(btn).on('click', function(){
+        if($(username).val() == "") {
+            $(username).next('label').addClass('warning');
+            setTimeout(function() {
+                $('label').removeClass('warning')
+            },1500
+
+            );
+        }
+        else if($(nickname).val()==""){
+            $(pw).next('label').addClass('warning');
+            setTimeout(function() {
+                $('label').removeClass('warning')
+            },1500
+
+            );
+
+        }
+        else if($(password).val()==""){
+            $(password).next('label').addClass('warning');
+            setTimeout(function() {
+                $('label').removeClass('warning')
+            },1500
+
+            );
+
+        }
+        else if($(re_password).val()==""){
+            $(re_password).next('label').addClass('warning');
+            setTimeout(function() {
+                $('label').removeClass('warning')
+            },1500
+
+            );
+
+        }
+        else if($(email).val()==""){
+            $(email).next('label').addClass('warning');
+            setTimeout(function() {
+                $('label').removeClass('warning')
+            },1500
+
+            );
+
+        }
+
+    });
+
+</script>
+</body>
+</html>

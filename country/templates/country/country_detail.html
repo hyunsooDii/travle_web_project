@@ -1,0 +1,52 @@
+{% extends "main_template.html" %}
+
+{% block title %}post_all.html{% endblock %}
+
+{% block content %}
+
+<h2>{{object.title}}</h2>
+
+<p>
+    {%if country.get_previous %}
+        <a href="{{country.get_previous.get_absolute_url}}"
+            title="이전 글">prev</a>
+    {%endif%}
+
+    {%if country.get_next %}
+        <a href="{{country.get_next.get_absolute_url}}"
+            title="다음 글">next</a>
+    {%endif%}
+</p>
+
+<div class="text-right">
+    <p>글쓴이: {{country.owner}} 수정일: {{country.modify_dt | date:"Y-m-d"}} 조회수: {{country.update_read_cnt}}</p>
+</div>
+<br>
+
+<div class="test-right my-3">
+    {% for file in country.files.all %}
+        <a href="{% url 'country:download' file.id %}" class="ml-4">
+            <i class="fas fa-download"></i>
+            {{ file.filename }} ({{ file.size|filesizeformat }}) </a>
+    {% endfor %}
+</div>
+
+{% if country.owner == user %} {# 글쓴이와 로그인한 유저가 일치했을 때 #}
+<div class="text-right">
+    <a href="{% url 'country:update' country.id %}" class="mr-3">
+        <i class="fas fa-edit"></i>수정</a>
+    <a href="{% url 'country:delete' country.id %}" class="text-danger mr-3">
+        <i class="far fa-trash"></i>삭제</a>
+</div>
+{% endif %}
+
+<div>
+    {# {{country.content | linebreaks}} #} {#linebreaks - 개행문자를 br태그 혹은 p태그로 대체#}
+    {{country.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
+</div>
+
+<a href="{% url 'country:index'%}">목록으로</a>
+
+<br>
+
+{%endblock%}

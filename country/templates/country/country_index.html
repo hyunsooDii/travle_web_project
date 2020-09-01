@@ -1,0 +1,28 @@
+{% extends "main_template.html" %}
+
+{% block title %}post_all.html{% endblock %}
+
+{% block content %}
+
+{% block extra-style %}
+
+<style>
+    .pagination > .active > a,
+    .pagination > .active > a:hover,
+    .pagination > .active > a:visited
+    {
+        color: while;
+        background-color: purple;
+        border: solid 1px purple;
+    }
+</style>
+
+{%endblock%}
+
+<h1>Blog List</h1>
+<br>
+{% include "country_get_url.html" %}
+<br>
+{% include "pagination.html" %}
+
+{% endblock %}

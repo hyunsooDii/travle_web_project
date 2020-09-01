@@ -1,0 +1,129 @@
+{% extends "main_template.html" %}
+{%load static%}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width=device-width initial-scale =1">
+    <link rel = "stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<style>
+        body{
+            margin: 0;
+            padding:0;
+
+        }
+        .rating{
+            position: absolute;
+            top: 50%;
+            left: 45%;
+            transform: translate(-50%,-50%) rotateY(180deg);
+            display: flex;
+        }
+        .rating input{
+
+            display: none;
+        }
+        .rating label{
+
+            display: block;
+            cursor: pointer;
+            width: 45px;
+            background: #ffff;
+        }
+        .rating label:before{
+                content: '\f005';
+                font-family: fontAwesome;
+                position: relative;
+                display: block;
+                font-size: 30px;
+                color: #ccc;
+
+        }
+        .rating label:after{
+                content: '\f005';
+                font-family: fontAwesome;
+                position: absolute;
+                display: block;
+                font-size: 30px;
+                color: yellow;
+                top: 0;
+                opacity: 0;
+                transition: .5%;
+                border-color: #000000;
+                text-shadow: 0 2px 5px rgba(0,0,0,.5);
+        }
+        .rating label:hover:after,
+        .rating label:hover~ label:after,
+        .rating input:checked ~ label:after
+        {
+                 opacity: 1;
+
+
+        }
+
+    </style>
+
+<style>
+{%include "board/board.css"%}
+
+</style>
+</head>
+<body>
+    <div id = "container">
+        <br>
+        <div id = "list">
+            <h1>여행 리뷰 게시판</h1>
+        </div>
+        <br><br>
+        <div class="text-right mr-3">
+            {% if user.is_active %}
+             <a href="{%url 'board:add' %}" class="btn btn-primary btn-sm">
+             <i class="fas fa-pencil-alt"></i> 리뷰 쓰기</a>
+                <a href="{%url 'home'%}" class="btn btn-primary btn-sm">홈으로</a>
+                  {% endif %}
+                </div>
+<br>
+<ul>
+    <table class="sub_news table-hover" border="1" cellspacing="0" summary="게시판의 글제목 리스트">
+    <thead>
+    <tr>
+        <th width ="5%">번호</th>
+        <th width="10%">나라</th>
+        <th width="10%">도시</th>
+        <th width="40%">제목</th>
+        <th width="10%">평점</th>
+        <th width="10%">작성자</th>
+        <th width="10%">작성일</th>
+        <th width="5%">조회수</th>
+<!--       댓글 수? -->
+    </tr>
+    </thead>
+
+    <tbody>
+        {% for board in boards %}
+    <tr>
+        <td class = "number">{{board.id}}</td>
+         <td class = "country">{{board.country_index}}</td>
+        <td class = "city">{{board.city}}</td>
+        <td class="title">
+            <a href="{{ board.get_absolute_url }}">{{board.title}}</a>
+             <a href="{% url 'board:detail' pk=board.pk %}">[Comments: {{ board.comments.count }}]</a>
+            {%if board.read_cnt > 20 %}
+            <span class = "hit">hit!</span>
+            {%endif%}
+
+        </td>
+        <td class="star">{{board.star}}</td>
+        <td class="name">{{ board.owner }}</td>
+        <td class="date">{{ board.modify_dt|date:"Y-m-d" }}&emsp;</td>
+        <td class="rhit">{{board.read_cnt}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+</ul>
+
+    </div>
+{%endblock%}

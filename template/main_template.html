@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>{% block title %}Title{% endblock %}</title>
+    {%include "link.html"%}
+    {%include "meta.html"%}
+</head>
+
+<style>
+    {%include "main_style.css"%}
+    {%include "card_style.css"%}
+    {% block extra-style %}{% endblock %}
+</style>
+
+<body>
+<div id="main" class="container">
+
+    {%include "aside.html"%}
+    {%include "header.html"%}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- <div style="margin: 56px 48px 60px 48px"> -->
+                    {% block content%}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{%include "script.html"%}
+{% block extra-script %}{% endblock %}
+</body>

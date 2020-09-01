@@ -1,0 +1,23 @@
+{% extends "main_template.html" %}
+
+{% block title %}board_archive.html{% endblock %}
+
+{% block content %}
+
+<h1>Board Archives until {%now "b d, Y" %}</h1>
+<ul>
+    {% for date in date_list %}
+    <li style="display: inline;">
+        <a href="{% url 'board:board_year_archive' date|date:'Y' %}">
+            Year-{{date|date:"Y"}}</a></li>
+    {% endfor %}
+</ul>
+<br/>
+
+<div>
+    <ul>
+        {% include "board_get_url.html"%}
+    </ul>
+</div>
+
+{% endblock %}

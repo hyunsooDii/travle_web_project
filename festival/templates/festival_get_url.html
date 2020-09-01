@@ -1,0 +1,9 @@
+<ul>
+    {% for festival in object_list %}
+    <li class="h5">
+        {{ festival.modify_dt|date:"Y-m-d" }}&emsp;
+        <a href="{{ festival.get_absolute_url }}">
+            <strong>{{ festival.title }}</strong></a>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+}
+body{
+    font-family: 'Cute Font', cursive;
+
+}
+iframe {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#main {
+
+}
+
+#main.toggle {
+
+}
+
+#main>.w3-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: -100%;
+    width: 200px;
+    height: 100%;
+    transition: left 0.3s;
+    z-index: 1000;
+    box-shadow: 0 0 0.25rem rgba(0,0,0,0.25);
+    background: #fff;
+}
+
+#main.toggle>.w3-sidebar {
+    left: 0%;
+    transition: left 0.3s;
+}
+
+#main>.w3-sidebar>button {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    outline: none;
+    border: 0;
+    font-weight: bold;
+}
+
+.top-nav-bar {
+    height: 57px;
+    top: 0;
+    position: static;
+    margin-bottom: 0;
+    z-index: 2;
+}
+
+.search-box {
+    display: inline-flex;
+    width: 60%;
+}
+
+
+
+.menu-bar ul li a {
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+.main-page{ /* 임시용 */
+    margin: 0% 30% 30% 10%;
+}
+
+.side-menu ul li a {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* side menu */
+
+#menu-btn /* 최상단 메뉴 바 */
+{
+    font-size: 30px;
+    margin: 10px;
+    color: orange;
+    border: 0;
+    outline: 0;
+    display: block;
+    cursor: pointer;
+    background-color: #ffff
+}
+
+#close-btn /* 메뉴바 눌렀을 때 사이드 바 없애는 버튼인데 안보이게 하는 css */
+{
+    font-size: 30px;
+    margin: 10px;
+    color: orange;
+    display: none;
+    cursor: pointer;
+}
+
+}
+
+/* 메인 사이드바 색상 및 서브메뉴 css*/
+.list-group-item {
+    background-color: #ffffff;
+    border: none;
+}
+
+a.list-group-item {
+    color: rgb(0, 0, 0);
+}
+
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus {
+    color: #FFF;
+    background-color: #E97252;
+    border: none;
+}
+
+.list-group-item:first-child,
+.list-group-item:last-child {
+    border-radius: 0;
+}
+
+.list-group-level1 .list-group-item {
+    padding-left:30px;
+}
+
+.list-group-level2 .list-group-item {
+    padding-left:60px;
+}

@@ -1,0 +1,57 @@
+{% extends "main_template.html" %}
+
+{%load static%}
+
+{% block title %}city_test{% endblock %}
+
+{% block content %}
+
+{% block extra-style %}
+
+<style>
+    .pagination > .active > a,
+    .pagination > .active > a:hover,
+    .pagination > .active > a:visited
+    {
+        color: while;
+        background-color: purple;
+        border: solid 1px purple;
+    }
+{%include "card_style.css"%}
+
+</style>
+
+{%endblock%}
+
+<h1>Card_Test_view</h1>
+<br>
+<div class="carousel" data-flickity='{ "groupCells": 3 }'>
+    {% for country in object_list %}
+    <div class="carousel-cell">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3">
+                <div class="card">
+                    <img src="/static/images/{{ post.first_image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.title}}</h5>
+                        <p class="card-text">
+                            {{post.content|safe}}</p>
+                    </div>
+                    <a href="#" class="btn btn-primary stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br>
+
+<div class="text-right mr-3">
+    {% if user.is_active %}
+    <a href="{%url 'blog:add' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+    {% endif %}
+</div>
+
+{% endblock %}

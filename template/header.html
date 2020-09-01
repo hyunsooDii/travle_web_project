@@ -1,0 +1,19 @@
+{%load static %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col d-flex align-items-center">
+            <div class="top-nav-bar flex-fill"> <!-- 최상단 nav-bar -->
+                <div class="search-box">
+                    <button id="menu-btn" class="fa fa-bars" onclick="w3_open()"></button>
+                    <i class="fa fa-times" id="close-btn" onclick="w3_close()"></i>
+                    <p> <a href="{% url 'home' %}"><img src = "{% static 'images/fox.jpg' %}" width = "40px" height="40px" align = "middle"></a><span style="font-size: 33px; font-weight: bold;">여</span>행 <span style="font-size: 33px; font-weight: bold;">우</span>데가지<span style="font-size: 33px; font-weight: bold;">?</span></p>
+                </div>
+            </div>
+            <form>
+                <input type="text" placeholder="search">
+                <button>검색</button>
+            </form>
+        </div>
+    </div>
+</div>
