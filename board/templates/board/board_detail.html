@@ -1,4 +1,5 @@
 {% extends "main_template.html" %}
+{% load static %}
 {% block content %}
 <head>
     <style>
@@ -6,87 +7,97 @@
     margin: 20px 0px 20px 20px;
     }
 
+
+
     </style>
 
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 </head>
 
-
-<h2>{{boards.title}}</h2>
 <body>
+<div id="container">
+    <br>
+
+    <div>
+        <h1 style="text-align:center">여행 리뷰 게시판</h1>
+    </div>
+    <br><br>
+    <div style="border: 1px solid #E6E3E0; padding:20px;">
+        <div class=" row">
+            <div class="col-sm-6">
+                <h2>{{boards.title}} </h2>
+            </div>
+            <div class="col-sm-6" style="text-align:right;">
+
+                {%if boards.get_previous %}
+                <a href="{{boards.get_previous.get_absolute_url}}"
+                   title="이전 글"><i class="fas fa-arrow-left"></i>이전 글</a></a>
+                {%endif%}
+
+                {%if boards.get_next %}
+                <a href="{{boards.get_next.get_absolute_url}}"
+                   title="다음 글">다음 글<i class="fas fa-arrow-right"></i></a></a>
+                {%endif%}
+            </div>
+        </div>
 
 
-<p>
-    {%if boards.get_previous %}
-    <a href="{{boards.get_previous.get_absolute_url}}"
-       title="이전 글">prev</a>
-    {%endif%}
+        <div class=" row">
+            <div class="col-sm-6">
+                <img src="{% static 'images/user2.png' %}" style="width:30px; height:30px;">
+                <strong>글쓴이: {{ boards.owner}}</strong><br>수정일: {{boards.modify_dt | date:"Y-m-d"}} 조회수:
+                {{boards.update_read_cnt}}</p>
+            </div>
+            <div class="col-sm-6" style="text-align:right;">
+                {% if boards.owner == user %} {# 글쓴이와 로그인한 유저가 일치했을 때 #}
+                <a href="{% url 'board:update' boards.id %}" class="mr-3">
+                    <i class="fas fa-edit" style="text-align:center;"></i>수정</a>
+                <a href="{% url 'board:delete' boards.id %}" class="text-danger mr-3">
+                    <i class="far fa-trash-alt"></i>삭제</a>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
 
-    {%if boards.get_next %}
-    <a href="{{boards.get_next.get_absolute_url}}"
-       title="다음 글">next</a>
-    {%endif%}
-</p>
+        <div>
+            {% if boards.first_image != '' %}
+            <img src="/static/images/{{ boards.first_image }}" style="width:300px; height:300px;">
+            {% endif %}
+            {{boards.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
+        </div>
 
-<div class="text-right">
-    <p>글쓴이: {{ boards.owner}} 수정일: {{boards.modify_dt | date:"Y-m-d"}} 조회수: {{boards.update_read_cnt}}</p>
+        <a href="{% url 'board:index'%}">목록으로</a>
+
+        <br>
+        <div>
+            <b>TAGS</b> <i class="fas fa-tag"></i>
+            {% load taggit_templatetags2_tags %}
+            {% get_tags_for_object object as "tags" %}
+            {% for tag in tags %}
+            <a href="{% url 'board:tagged_object_list' tag.name %}">{{tag.name}}</a>
+            {% endfor %}
+            &emsp;<a href="{% url 'board:tag_cloud' %}">
+            <span class="btn btn-info btn-sm">TagCloud</span> </a>
+        </div>
+
+        <hr>
+
+        <a class="btn btn-info btn-sm" href="{% url 'board:add_comment_to_board' boards.id  %}">Add comment</a>
+        <br>
+        {% for comment in boards.comments.all %}
+        {% if user.is_active %}
+        <div class="comment">
+            <strong>글쓴이: {{ comment.owner }}</strong>
+            <div class="date">{{ comment.create_dt }}</div>
+            {%endif%}
+
+            <p>댓글 :{{ comment.text}}</p>
+        </div>
+        {% empty %}
+        <p>No comments here yet :(</p>
+        {% endfor %}
+    </div>
 </div>
-<br>
-
-<div class="test-right my-3">
-    {% for file in board.files.all %}
-    <a href="{% url 'board:download' file.id %}" class="ml-4">
-        <i class="fas fa-download"></i>
-        {{ file.filename }} ({{ file.size|filesizeformat }}) </a>
-    {% endfor %}
-</div>
-
-{% if boards.owner == user %} {# 글쓴이와 로그인한 유저가 일치했을 때 #}
-<div class="text-right">
-    <a href="{% url 'board:update' boards.id %}" class="mr-3">
-        <i class="fas fa-edit"></i>수정</a>
-    <a href="{% url 'board:delete' boards.id %}" class="text-danger mr-3">
-        <i class="far fa-trash-alt"></i>삭제</a>
-</div>
-{% endif %}
-
-<div>
-    {% if boards.first_image != '' %}
-    <img src="/static/images/{{ boards.first_image }}" style="width:300px; height:300px;">
-    {% endif %}
-    {{boards.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
-</div>
-
-<a href="{% url 'board:index'%}">목록으로</a>
-
-<br>
-<div>
-    <b>TAGS</b> <i class="fas fa-tag"></i>
-    {% load taggit_templatetags2_tags %}
-    {% get_tags_for_object object as "tags" %}
-    {% for tag in tags %}
-    <a href="{% url 'board:tagged_object_list' tag.name %}">{{tag.name}}</a>
-    {% endfor %}
-    &emsp;<a href="{% url 'board:tag_cloud' %}">
-    <span class="btn btn-info btn-sm">TagCloud</span> </a>
-</div>
-
-<hr>
-
-<a class="btn btn-info btn-sm" href="{% url 'board:add_comment_to_board' boards.id  %}">Add comment</a>
-<br>
-{% for comment in boards.comments.all %}
-{% if user.is_active %}
-<div class="comment">
-    <div class="date">{{ comment.create_dt }}</div>
-    {%endif%}
-    <strong>글쓴이: {{ comment.owner }}</strong>
-    <p>댓글 :{{ comment.text}}</p>
-</div>
-{% empty %}
-<p>No comments here yet :(</p>
-{% endfor %}
-
-
+<br><br>
 </body>
 {% endblock %}

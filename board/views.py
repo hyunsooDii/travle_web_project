@@ -126,7 +126,7 @@ class SearchFormView(FormView):
 class BoardCreateView(LoginRequiredMixin, CreateView):
     model = Board
 
-    fields = ['country_index', 'title', 'content', 'star']
+    fields = ['country_index', 'title', 'content', 'star', 'city']
 
     success_url = reverse_lazy('board:index')
 
@@ -147,7 +147,7 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 
 class BoardUpdateView(OwnerOnlyMixin, UpdateView):
     model = Board
-    fields = ['country_index', 'title', 'content', 'star']
+    fields = ['country_index', 'title', 'content', 'star', 'city']
     success_url = reverse_lazy('board:index')
 
     def form_valid(self, form):
