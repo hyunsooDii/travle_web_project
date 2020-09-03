@@ -71,15 +71,16 @@ class BoardAttachFile(models.Model):
 class Comment(models.Model):
 
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='comments')
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='OWNER', blank=True, null=True) #댓글 작성자
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='OWNER', blank=True, null=True)
     text = models.TextField()
     create_dt = models.DateTimeField('CREATE DATE', auto_now_add=True)
-    modify_dt = models.DateTimeField('MODIFY DATE')
-    approved_comment = models.BooleanField(default=False)
 
-    def approve(self):
-        self.approved_comment = True
-        self.save()
+
+    def get_absolute_url(self):  # 현재 데이터의 절대 경로 추출
+        return reverse('board:detail', args=(self.pk,))
+
+
+
     def __str__(self):
         return self.text
 

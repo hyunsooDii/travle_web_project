@@ -108,7 +108,7 @@
         <td class = "city">{{board.city}}</td>
         <td class="title">
             <a href="{{ board.get_absolute_url }}">{{board.title}}</a>
-             <a href="{% url 'board:detail' pk=board.pk %}">[Comments: {{ board.comments.count }}]</a>
+             <a href="{% url 'board:detail' pk=board.pk%}">[Comments: {{ board.comments.count }}]</a>
             {%if board.read_cnt > 20 %}
             <span class = "hit">hit!</span>
             {%endif%}

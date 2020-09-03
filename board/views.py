@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect,reverse
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from board.models import *
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView, \
@@ -11,10 +11,10 @@ from django.views.generic import FormView  # forms.py와 짝을 맞춤
 from django.db.models import Q
 
 from django.utils import timezone
-
+from django.contrib import messages
 from board.forms import BoardSearchForm
 
-from django.http import FileResponse
+from django.http import FileResponse,HttpResponseRedirect
 import os
 from django.conf import settings
 from board.forms import *
@@ -125,7 +125,7 @@ class SearchFormView(FormView):
 class BoardCreateView(LoginRequiredMixin, CreateView):
     model = Board
 
-    fields = ['country_index', 'title', 'content', 'star']
+    fields = ['country_index','city' ,'title', 'content', 'star']
 
     success_url = reverse_lazy('board:index')
 
@@ -146,7 +146,7 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 
 class BoardUpdateView(OwnerOnlyMixin, UpdateView):
     model = Board
-    fields = ['country_index', 'title', 'content', 'star']
+    fields = ['country_index','city' ,'title', 'content', 'star']
     success_url = reverse_lazy('board:index')
 
     def form_valid(self, form):
@@ -181,15 +181,43 @@ def download(request, id):  # 함수 기반의 view
     return FileResponse(open(file_path, 'rb'))  # 파일의 경로와, rb(read binary)
 
 
-def add_comment_to_board(request, board_id):
-    board = get_object_or_404(Board, pk=board_id)
+def add_comment_to_board(request, pk):
+    board = get_object_or_404(Board, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.board = board
+            comment.owner_id = request.user.id
+
             comment.save()
-            return redirect('board:detail', pk=board_id)
+            return redirect('board:detail', pk=pk)
     else:
         form = CommentForm()
     return render(request, 'board/add_comment_to_board.html', {'form': form})
+def comment_update(request,pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    board = get_object_or_404(Board,pk= comment.board.id)
+
+    if request.user != comment.owner:
+        return redirect('board:detail')
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('board:detail',board.id)
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request,'board/add_comment_to_board.html',{'form':form})
+
+
+def comment_delete(request,pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    board = get_object_or_404(Board, pk=comment.board.id)
+
+    if request.method == "POST":
+        comment.delete()
+        return redirect('board:detail',board.id)
+    else:
+        return render(request,'board/comment_confirm_delete.html',{'object':comment})

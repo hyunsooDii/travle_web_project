@@ -31,7 +31,7 @@
 
             display: block;
             cursor: pointer;
-            width: 45px;
+            width: 40px;
             background: #ffff;
         }
         .rating label:before{
@@ -89,15 +89,16 @@
             {{ form.country_index|add_class:"form-control"|attr:"autofocus" }}
         </div>
     </div>
+    <br>
     <div class="form-group row">
         {{ form.city|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
         <div class="col-sm-5">
             {{ form.city|add_class:"form-control" }}
         </div>
     </div>
-
+<br>
         <div class="form-group row">
-<!--             {{ form.star|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}-->
+
             <label class="col-form-label col-sm-2 ml-3 font-weight-bold">RATING :</label>
        <div class="col-sm-5">
         <div class = "rating">
@@ -112,7 +113,7 @@
 
         </div>
         </div>
-
+<br>
     <div class="form-group row">
         {{ form.title|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
         <div class="col-sm-5">

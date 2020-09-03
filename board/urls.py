@@ -12,7 +12,10 @@ urlpatterns = [
     #path('board/board_list',BoardList.as_view(), name = 'board_list'),
     re_path(r'^post/(?P<pk>[-\w]+)/$', BoardDV.as_view(), name='detail'),
 
-    re_path('comment/', add_comment_to_board, name='add_comment_to_board'),
+    path('comment/<int:pk>/', add_comment_to_board, name='add_comment_to_board'),
+    path('comment/delete/<int:pk>/', comment_delete, name="comment_delete"),
+    path('comment/update/<int:pk>/', comment_update, name="comment_update"),
+
 
     # slug라는 이름의 경로변수를 배정, w - word(알파벳, 숫자), + - 한개 이상 나온다
     # 슬러그라는 환경변수로 공백없이 글자, 숫자, 대시만 허용한다, 마지막은 /로 끝나야 하는 것을 받겠다.

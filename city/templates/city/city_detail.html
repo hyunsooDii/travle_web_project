@@ -40,17 +40,17 @@
 {% endif %}
 
 <div>
-<<<<<<< HEAD
+
     <h3>카드 내용</h3>
     {# {{object.card_content | linebreaks}} #} {#linebreaks - 개행문자를 br태그 혹은 p태그로 대체#}
     {{object.card_content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
     <br><br>
     <h3>메인 내용</h3>
     {{object.main_content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
-=======
+
     {# {{object.content | linebreaks}} #} {#linebreaks - 개행문자를 br태그 혹은 p태그로 대체#}
     {{object.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
->>>>>>> 12cabc5e6dcacdea25c7adb8827a885a0f7d968a
+
 </div>
 
 <a href="{% url 'city:index_view'%}">목록으로</a>

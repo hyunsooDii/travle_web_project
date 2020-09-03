@@ -1,11 +1,22 @@
 {% extends "main_template.html" %}
+{%load static%}}
 {% block content %}
 <head>
     <style>
         .comment {
     margin: 20px 0px 20px 20px;
-}
 
+
+}
+  .btn-area button {
+    width: 10%; height: 40px;
+    background: #e9792f;
+    font-size:  20px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer
+}
     </style>
 
 
@@ -31,12 +42,11 @@
 </p>
 
 <div class="text-right">
-    <p>글쓴이: {{ user.first_name }} 수정일: {{boards.modify_dt | date:"Y-m-d"}} 조회수: {{boards.update_read_cnt}}</p>
+    <p>글쓴이: {{ boards.owner }} 수정일: {{boards.modify_dt | date:"Y-m-d"}} 조회수: {{boards.update_read_cnt}}</p>
 </div>
-<br>
 
-<div class="test-right my-3">
-    {% for file in board.files.all %}
+<div class="test-right my-1">
+    {% for file in boards.files.all %}
         <a href="{% url 'board:download' file.id %}" class="ml-4">
             <i class="fas fa-download"></i>
             {{ file.filename }} ({{ file.size|filesizeformat }}) </a>
@@ -53,7 +63,7 @@
 {% endif %}
 
 <div>
-
+    <img src="/static/images/{{ boards.first_image }}">
     {{boards.content | safe }} {# HTML 태그 내용을 HTML로 처리 #}
 </div>
 
@@ -70,14 +80,30 @@
     &emsp;<a href="{% url 'board:tag_cloud' %}">
     <span class="btn btn-info btn-sm">TagCloud</span> </a>
 </div>
-
 <hr>
-    <a class="btn btn-info btn-sm" href="{% url 'board:add_comment_to_board'%}">Add comment</a>
-    {% for comment in board.comments.all %}
+<div class="btn-area">
+    <a class="btn btn-info btn-sm" href="{% url 'board:add_comment_to_board' boards.id  %}">댓글 작성</a>
+</div>
+    {% for comment in boards.comments.all %}
+    {% if user.is_active %}
+    <hr>
     <div class="comment">
-        <div class="date">{{ comment.created_dt }}</div>
-        <strong>{{ comment.owner }}</strong>
-        <p>{{ comment.text|linebreaks }}</p>
+        <div class="text-right">
+            {%if comment.owner == user %}
+    <a href="{% url 'board:comment_update' comment.id %}" class="mr-3">
+        <i class="fas fa-edit"></i>수정</a>
+    <a href="{% url 'board:comment_delete' comment.id %}" class="text-danger mr-3">
+        <i class="far fa-trash"></i>삭제</a>
+            {%endif%}
+</div>
+
+
+        <div class="date">{{ comment.create_dt }}</div>
+        {%endif%}
+        <strong>글쓴이 : {{ comment.owner }}</strong>
+        <p>댓글 : {{ comment.text }}</p>
+
+
     </div>
     {% empty %}
     <p>No comments here yet :(</p>
