@@ -16,9 +16,6 @@
 }
 {%include "card_style.css"%}
 
-
-
-
 </style>
 
 {%endblock%}
@@ -26,7 +23,7 @@
 <h1>{{city_id.title}}의 주요 관광지</h1>
 
 <br>
-<div class="carousel" id="card_body" data-flickity='{ "groupCells": 4 }'>
+<div class="carousel" data-flickity='{ "groupCells": 4 }'>
     {% for detail_city in detail_city_list %}
     {% if detail_city.city_index_id == city_id.id%}
     <div class="carousel-cell">
@@ -99,7 +96,7 @@
         {%include 'google_api.html'%}
     </div>
 </div>
-<h1>{{city_id.title}}행사</h1>
+<h1>{{city_id.title}}볼거리</h1>
 <br>
 <div class="carousel" id="#" data-flickity='{ "groupCells": 4 }'>
     {% for festival in festival_list %}

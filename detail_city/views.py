@@ -111,7 +111,7 @@ class Detail_cityUpdateView(OwnerOnlyMixin, UpdateView):
         response = super().form_valid(form)
         files = self.request.FILES.getlist("files")  # file 다운로드
         for file in files:
-            attach_file = Detail_cityAttachFile(post=self.object, filename=file.name, size=file.size,
+            attach_file = Detail_cityAttachFile(detail_city=self.object, filename=file.name, size=file.size,
                                             content_type=file.content_type, upload_file=file)
 
             attach_file.save()
@@ -121,7 +121,7 @@ class Detail_cityUpdateView(OwnerOnlyMixin, UpdateView):
 
 class Detail_cityDeleteView(OwnerOnlyMixin, DeleteView):
     model = Detail_city
-    success_url = reverse_lazy('Detail_city:index')
+    success_url = reverse_lazy('detail_city:index')
 
 
 def download(request, id):  # 함수 기반의 view

@@ -25,7 +25,7 @@
 <br><br>
 
 <div class="text-right mr-3">
-    {% if user.is_active %}
+    {% if user.is_superuser == 1 %}
     <a href="{%url 'country:add' %}" class="btn btn-primary btn-sm">
         <i class="fas fa-pencil-alt"></i> 쓰기</a>
     <a href="{%url 'country:index_view'%}" class="btn btn-primary btn-sm">목록으로</a>

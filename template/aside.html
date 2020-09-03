@@ -16,12 +16,19 @@
         margin-top: 40px;
         margin-left: 0;
     }
+
 </style>
 
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" id="mySidebar">
-<div style="width: 100; height: 30px; margin: 0;"><button id="menu-btn" class="fa fa-times" style="float: right; margin: 0;" onclick="w3_close()"></button></div>
+    <div style="width: 100; height: 30px; margin: 0;">
+        <button id="menu-btn" class="fa fa-times" style="float: right; margin: 0;" onclick="w3_close()"></button>
+    </div>
     <div class="row">
         {% if user.is_active %}
+        <div class="col-sm-6">
+            <img class="user_image" src="{% static 'images/user2.png' %}" class="profile_image" alt="">
+        </div>
+        {% else %}
         <div class="col-sm-6">
             <img class="user_image" src="{% static 'images/user1.png' %}" class="profile_image" alt="">
         </div>
@@ -50,7 +57,7 @@
             <a href="#america" class="list-group-item" data-toggle="collapse"
                data-parent="#north-america">미국<span class="caret"></span></a>
             <div class="collapse list-group-level2" id="america">
-                <a href="{% url 'country:index' %}" class="list-group-item" data-parent="#america">뉴욕(NewYork)</a>
+                <a href="/detail_city/2" class="list-group-item" data-parent="#america">뉴욕(NewYork)</a>
                 <a href="#" class="list-group-item" data-parent="#america">로스엔젤레스(LA)</a>
                 <a href="#" class="list-group-item" data-parent="#america">라스베가스(Lasvegas)</a>
             </div>
@@ -152,7 +159,8 @@
                 <a href="#" class="list-group-item" data-parent="#italy">베네치아</a>
             </div>
         </div>
-        <a href="{% url 'board:index' %}" class="list-group-item" style="background-color: #E97252; color : #fff; border : None;">여행리뷰</a>
+        <a href="{% url 'board:index' %}" class="list-group-item"
+           style="background-color: #E97252; color : #fff; border : None;">여행리뷰</a>
 
     </div>
 </div>

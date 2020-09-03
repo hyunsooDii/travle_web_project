@@ -86,7 +86,7 @@ class FestivalUpdateView(OwnerOnlyMixin, UpdateView):
         files = self.request.FILES.getlist("files")  # file 다운로드
         for file in files:
 
-            attach_file = FestivalAttachFile(Festival= self.object, filename= file.name, size= file.size, content_type= file.content_type, upload_file= file)
+            attach_file = FestivalAttachFile(festival= self.object, filename= file.name, size= file.size, content_type= file.content_type, upload_file= file)
 
             attach_file.save()
 

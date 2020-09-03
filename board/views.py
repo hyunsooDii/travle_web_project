@@ -34,6 +34,7 @@ class BoardListLV(ListView):
     model = Board
     template_name = 'board/board_list.html'
     context_object_name = 'boards'
+    paginate_by = 10
 
 
 # DetailView
@@ -161,7 +162,7 @@ class BoardUpdateView(OwnerOnlyMixin, UpdateView):
         response = super().form_valid(form)
         files = self.request.FILES.getlist("files")  # file 다운로드
         for file in files:
-            attach_file = BoardAttachFile(post=self.object, filename=file.name, size=file.size,
+            attach_file = BoardAttachFile(board=self.object, filename=file.name, size=file.size,
                                           content_type=file.content_type, upload_file=file)
 
             attach_file.save()
@@ -181,15 +182,16 @@ def download(request, id):  # 함수 기반의 view
     return FileResponse(open(file_path, 'rb'))  # 파일의 경로와, rb(read binary)
 
 
-def add_comment_to_board(request, board_id):
-    board = get_object_or_404(Board, pk=board_id)
+def add_comment_to_board(request, pk):
+    board = get_object_or_404(Board, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.owner_id = request.user.id
             comment.board = board
             comment.save()
-            return redirect('board:detail', pk=board_id)
+            return redirect('board:detail', pk=pk)
     else:
         form = CommentForm()
     return render(request, 'board/add_comment_to_board.html', {'form': form})

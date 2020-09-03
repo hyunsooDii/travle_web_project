@@ -80,7 +80,7 @@ class CountryCreateView(LoginRequiredMixin, CreateView):
     # fields = ['title', 'slug', 'description', 'content', 'tags'] # 모델 view에서 form으로 저것들을 운영하겠다
     fields = ['title', 'content', ]
     # initial = {'slug': 'auto-filling-do-not-input'} # 초기값을 담아 두는 사전
-    success_url = reverse_lazy('country:index')
+    success_url = reverse_lazy('country:index_view')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -101,7 +101,7 @@ class CountryUpdateView(OwnerOnlyMixin, UpdateView):
     model = Country
     fields = ['title', 'content',]
     # fields = ['title', 'description', 'content', 'tags']
-    success_url = reverse_lazy('Country:index')
+    success_url = reverse_lazy('country:index_view')
 
     def form_valid(self, form):
         form.instance.modify_dt = timezone.now()
@@ -118,7 +118,7 @@ class CountryUpdateView(OwnerOnlyMixin, UpdateView):
         response = super().form_valid(form)
         files = self.request.FILES.getlist("files")  # file 다운로드
         for file in files:
-            attach_file = CountryAttachFile(post=self.object, filename=file.name, size=file.size,
+            attach_file = CountryAttachFile(country=self.object, filename=file.name, size=file.size,
                                             content_type=file.content_type, upload_file=file)
 
             attach_file.save()
@@ -128,7 +128,7 @@ class CountryUpdateView(OwnerOnlyMixin, UpdateView):
 
 class CountryDeleteView(OwnerOnlyMixin, DeleteView):
     model = Country
-    success_url = reverse_lazy('country:index')
+    success_url = reverse_lazy('country:index_view')
 
 
 def download(request, id):  # 함수 기반의 view

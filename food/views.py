@@ -66,7 +66,7 @@ class FoodUpdateView(OwnerOnlyMixin, UpdateView):
     model = Food
     fields = ['title', 'content', 'country_index']
     #fields = ['title', 'description', 'content', 'tags']
-    success_url = reverse_lazy('country:index')
+    success_url = reverse_lazy('food:index')
 
     def form_valid(self, form):
         form.instance.modify_dt = timezone.now()
@@ -85,7 +85,7 @@ class FoodUpdateView(OwnerOnlyMixin, UpdateView):
         files = self.request.FILES.getlist("files")  # file 다운로드
         for file in files:
 
-            attach_file = FoodAttachFile(post= self.object, filename= file.name, size= file.size, content_type= file.content_type, upload_file= file)
+            attach_file = FoodAttachFile(food= self.object, filename= file.name, size= file.size, content_type= file.content_type, upload_file= file)
 
             attach_file.save()
 

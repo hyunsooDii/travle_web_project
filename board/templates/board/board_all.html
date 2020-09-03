@@ -7,13 +7,17 @@
         <div class="row">
             <div class="col-sm-12 col-lg-3">
                 <div class="card">
+                    {% if board.first_image != '' %}
                     <img src="/static/images/{{ board.first_image }}" class="card-img-top">
+                    {% else %}
+                    <img src="/static/images/no_images.jpg" class="card-img-top">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{board.title}}</h5>
                         <p class="card-text">
                             {{board.content|safe}}</p>
                     </div>
-                    <a href="#" class="btn btn-primary stretched-link"></a>
+                    <a href="/board/post/{{board.id}}/" class="btn btn-primary stretched-link"></a>
                 </div>
             </div>
         </div>
