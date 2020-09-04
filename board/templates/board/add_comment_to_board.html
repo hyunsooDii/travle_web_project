@@ -3,14 +3,13 @@
 {% block content %}
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width initial-scale =1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <meta name = "viewport" content = "width=device-width initial-scale =1">
+    <link rel = "stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <style>
     textarea{
     width:500px;
-   height:100px;
+	height:100px;
     resize:none;
     /*   resize:none; */
 /*   resize: horizontal; */
@@ -49,25 +48,24 @@
     border-radius: 10px;
     cursor: pointer
 }
-
     </style>
 
 </head>
 <body>
-<div class="row">
+<div class= "row">
     <div class="box">
         <br>
-        <h1>댓글을 작성해주세요.-{{user.username}}님</h1>
+    <h1>댓글을 작성해주세요.-{{user.username}}님</h1>
 
 
         <br>
-        <form method="POST" class="post-form">{% csrf_token %}
-            {{ form.as_p }}
-            <div class="btn-area">
-                <button type="submit" class="w3-button w3-round-xlarge">등록하기</button>
-            </div>
-        </form>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <div class = "btn-area">
+        <button type="submit" class="w3-button w3-round-xlarge">등록하기</button>
+        </div>
+    </form>
     </div>
 </div>
-</body>
+    </body>
 {% endblock %}
