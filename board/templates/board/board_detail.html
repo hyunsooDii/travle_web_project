@@ -9,6 +9,7 @@
 
 
 
+
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
@@ -87,11 +88,18 @@
         {% for comment in boards.comments.all %}
         {% if user.is_active %}
         <div class="comment">
-            <strong>글쓴이: {{ comment.owner }}</strong>
+            <div class="text-right">
+                {%if comment.owner == user %}
+                <a href="{% url 'board:comment_update' comment.id %}" class="mr-3">
+                    <i class="fas fa-edit"></i>수정</a>
+                <a href="{% url 'board:comment_delete' comment.id %}" class="text-danger mr-3">
+                    <i class="far fa-trash"></i>삭제</a>
+                {%endif%}
+            </div>
             <div class="date">{{ comment.create_dt }}</div>
             {%endif%}
-
-            <p>댓글 :{{ comment.text}}</p>
+            <strong>글쓴이 : {{ comment.owner }}</strong>
+            <p>댓글 : {{ comment.text }}</p>
         </div>
         {% empty %}
         <p>No comments here yet :(</p>
